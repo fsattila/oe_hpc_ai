@@ -105,7 +105,7 @@ singularity exec \
     --bind "${RUN_DIR}:/output" \
     --env HF_HOME=/data/cache \
     "${SIF_PATH}" \
-    python /workspace/src/<demo>.py --model_name_or_path "${MODEL_NAME_OR_PATH}" ...
+    python3 /workspace/src/<demo>.py --model_name_or_path "${MODEL_NAME_OR_PATH}" ...
 ```
 
 The three bind mounts establish a stable layout inside the container:
@@ -230,7 +230,7 @@ This is the **same Python script**. The only differences are:
 
 - the sbatch requests `--gres=gpu:2` (and more memory / CPUs);
 - the launcher is `torchrun --nproc_per_node=$SLURM_GPUS_ON_NODE` instead of
-  `python`.
+  `python3`.
 
 `torchrun` starts one process per GPU and sets up the rendezvous. HuggingFace
 `Trainer` then auto-detects `torch.distributed` and switches to DDP. Per-GPU

@@ -44,7 +44,7 @@ singularity exec \
     --bind "${RUN_DIR}:/output" \
     --env HF_HOME=/data/cache \
     "${SIF_PATH}" \
-    python /workspace/src/bert_finetune.py \
+    python3 /workspace/src/bert_finetune.py \
         --model_name_or_path "${MODEL_NAME_OR_PATH}" \
         --dataset_name "${DATASET_NAME}" \
         --dataset_config "${DATASET_CONFIG}" \

@@ -36,7 +36,7 @@ singularity exec \
     --bind "${RUN_DIR}:/output" \
     --env HF_HOME=/data/cache \
     "${SIF_PATH}" \
-    python /workspace/src/inference.py \
+    python3 /workspace/src/inference.py \
         --model_name_or_path "${MODEL_NAME_OR_PATH}" \
         --prompts_file "${PROMPTS_FILE}" \
         --output_dir /output \

@@ -9,4 +9,4 @@ From: huggingface/transformers-all-latest-gpu
     echo "Built from huggingface/transformers-all-latest-gpu"
 
 %runscript
-    exec python "$@"
+    exec python3 "$@"

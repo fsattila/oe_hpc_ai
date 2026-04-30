@@ -43,7 +43,7 @@ singularity exec \
     --bind "${RUN_DIR}:/output" \
     --env HF_HOME=/data/cache \
     "${SIF_PATH}" \
-    python /workspace/src/agentic_sft.py \
+    python3 /workspace/src/agentic_sft.py \
         --model_name_or_path "${MODEL_NAME_OR_PATH}" \
         --dataset_name_or_path "${DATASET_NAME_OR_PATH}" \
         --output_dir /output \

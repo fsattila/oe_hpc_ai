@@ -27,4 +27,4 @@ singularity exec \
     --bind "${HF_HOME_HOST}:/data/cache" \
     --env HF_HOME=/data/cache \
     "${SIF_PATH}" \
-    python /workspace/scripts/prefetch_hf.py
+    python3 /workspace/scripts/prefetch_hf.py
