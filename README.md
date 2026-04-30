@@ -61,9 +61,10 @@ repo on HuggingFace, so a one-time setup is required:
    export HF_TOKEN=hf_xxxxxxxxxxxxxxxxxxxx
    ```
 
-Then run the prefetch script:
+Then run the prefetch script (export the token in the same shell):
 
 ```bash
+export HF_TOKEN=hf_...
 bash scripts/prefetch_hf.sh
 ```
 
