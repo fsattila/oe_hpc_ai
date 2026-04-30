@@ -13,6 +13,13 @@ The focus is the **HPC side** (SLURM, sbatch, Singularity, GPU allocation,
 scaling); the AI workloads are deliberately small so the demos run quickly
 inside the `oe_hpc` reservation.
 
+> **Monitoring resource usage.** Every job submitted on Komondor can be
+> inspected live (and after completion) on the cluster's Jobstats dashboard:
+> <https://jobstats.komondor.hinfra.hu>. It shows per-GPU utilisation,
+> memory, CPU, I/O and lets you spot under-utilised allocations. See the
+> Komondor docs for the workflow:
+> <https://docs.hpc.dkf.hu/tasks/efficiency.html#job-monitoring-with-jobstats>.
+
 ---
 
 ## 0. Prerequisites
@@ -253,6 +260,12 @@ batch size stays the same; effective batch size doubles. This is what
 "linear weak scaling" looks like in practice — you'll see roughly half the
 wall-clock time for the same `MAX_STEPS`, with a comparable final accuracy.
 
+> **Verify the GPUs are actually being used.** Open
+> <https://jobstats.komondor.hinfra.hu> and find your job by its ID. A
+> healthy DDP run shows close-to-100 % utilisation on **every** allocated
+> GPU. If one GPU sits idle, your launcher or script is misconfigured. See
+> <https://docs.hpc.dkf.hu/tasks/efficiency.html#job-monitoring-with-jobstats>.
+
 ### 5.3. Scaling to 4 GPUs
 
 To use 4 GPUs instead of 2, edit the `#SBATCH` directives at the top of
@@ -321,6 +334,12 @@ Same script, `torchrun --nproc_per_node=N`. Same observation as for BERT:
 half the wall clock, same per-GPU batch size, double the effective batch.
 With this small a dataset (1000 samples) and short a run, the final loss
 will be similar across 1, 2, and 4 GPU setups.
+
+> **Reminder:** check
+> <https://jobstats.komondor.hinfra.hu> during the run to confirm that all
+> allocated GPUs reach high utilisation. SFT with `gradient_checkpointing=True`
+> trades some throughput for memory, so individual GPU utilisation will be
+> lower than for the BERT demo, but it should still be even across ranks.
 
 ---
 
