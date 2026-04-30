@@ -15,6 +15,10 @@
 
 set -euo pipefail
 
+# Drop SSL/CA env vars leaked by the host shell (e.g. VS Code Remote injects
+# paths under ~/.vscode-server that do not exist inside the container).
+unset SSL_CERT_FILE REQUESTS_CA_BUNDLE CURL_CA_BUNDLE NODE_EXTRA_CA_CERTS
+
 PROJECT_DIR=${PROJECT_DIR:-$(pwd)}
 SIF_PATH=${SIF_PATH:-/scratch/p_oe_hpc/transformers-gpu.sif}
 HF_HOME_HOST=${HF_HOME_HOST:-/scratch/p_oe_hpc/${USER}/hf_cache}
