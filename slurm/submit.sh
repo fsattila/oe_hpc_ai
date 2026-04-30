@@ -26,6 +26,11 @@ fi
 
 JOB_NAME=$1
 
+# Drop SSL/CA env vars leaked by the host shell (e.g. VS Code Remote injects
+# paths under ~/.vscode-server that do not exist on compute nodes or inside
+# the container). SLURM's default --export=ALL would otherwise carry them in.
+unset SSL_CERT_FILE REQUESTS_CA_BUNDLE CURL_CA_BUNDLE NODE_EXTRA_CA_CERTS
+
 ACCOUNT=${ACCOUNT:-p_oe_hpc}
 RESERVATION=${RESERVATION-oe_hpc}
 OUTPUT_ROOT=${OUTPUT_ROOT:-/scratch/p_oe_hpc/${USER}/oe_hpc_ai/output}
