@@ -6,6 +6,7 @@
 # every dataset shard must already be present in HF_HOME.
 #
 # Usage:
+#   export HF_TOKEN=hf_...     # required for gated repos (xlam-function-calling-60k)
 #   bash scripts/prefetch_hf.sh
 #
 # To change which models / datasets are downloaded, edit the DEFAULT_MODELS
@@ -26,5 +27,6 @@ singularity exec \
     --bind "${PROJECT_DIR}:/workspace" \
     --bind "${HF_HOME_HOST}:/data/cache" \
     --env HF_HOME=/data/cache \
+    --env HF_TOKEN="${HF_TOKEN:-}" \
     "${SIF_PATH}" \
     python3 /workspace/scripts/prefetch_hf.py

@@ -47,8 +47,21 @@ the SLURM scripts and can be overridden via `OUTPUT_ROOT` and `HF_HOME_HOST`.
 
 Compute nodes on Komondor have **no internet access**. Every model weight and
 every dataset shard used by the jobs must already be present in the cache on
-shared scratch. Run the prefetch script once on a login node before submitting
-any jobs:
+shared scratch.
+
+The Demo 3 dataset (`Salesforce/xlam-function-calling-60k`) is a **gated**
+repo on HuggingFace, so a one-time setup is required:
+
+1. Visit <https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k>
+   while signed in to your HuggingFace account and accept the dataset terms.
+2. Create a read-only access token at <https://huggingface.co/settings/tokens>
+   (type "Read" is enough).
+3. Export the token in your shell on the login node:
+   ```bash
+   export HF_TOKEN=hf_xxxxxxxxxxxxxxxxxxxx
+   ```
+
+Then run the prefetch script:
 
 ```bash
 bash scripts/prefetch_hf.sh
@@ -60,13 +73,14 @@ This downloads, into `/scratch/p_oe_hpc/$USER/hf_cache/`:
 - `Qwen/Qwen3-0.6B` — used in Demo 3 (SFT)
 - `distilbert-base-uncased` — used in Demo 2 (fine-tune)
 - `glue` (config `sst2`) — Demo 2 dataset
-- `Salesforce/xlam-function-calling-60k` — Demo 3 dataset
+- `Salesforce/xlam-function-calling-60k` — Demo 3 dataset (gated)
 
 If you want to download a different set of assets, edit the `DEFAULT_MODELS`
 and `DEFAULT_DATASETS` lists near the top of `scripts/prefetch_hf.py`.
 
 The script runs inside the same Singularity image used by the jobs, so the
-library versions match.
+library versions match. **`HF_TOKEN` is only needed for prefetching** — the
+SLURM jobs themselves read from the local cache and do not require it.
 
 ---
 

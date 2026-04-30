@@ -50,12 +50,17 @@ def main() -> None:
         os.environ["HF_HOME"] = args.cache_dir
     print(f"[prefetch] HF_HOME={os.environ.get('HF_HOME')}", flush=True)
 
+    token = os.environ.get("HF_TOKEN") or None
+    if not token:
+        print("[prefetch] HF_TOKEN not set — gated repos will fail to download",
+              flush=True)
+
     from huggingface_hub import snapshot_download
     from datasets import load_dataset
 
     for model_id in split_csv(args.models):
         print(f"[prefetch] model: {model_id}", flush=True)
-        path = snapshot_download(repo_id=model_id, repo_type="model")
+        path = snapshot_download(repo_id=model_id, repo_type="model", token=token)
         print(f"[prefetch]   -> {path}", flush=True)
 
     for ds_spec in split_csv(args.datasets):
@@ -64,7 +69,8 @@ def main() -> None:
         else:
             name, config = ds_spec, None
         print(f"[prefetch] dataset: {name} config={config}", flush=True)
-        ds = load_dataset(name, config) if config else load_dataset(name)
+        ds = (load_dataset(name, config, token=token) if config
+              else load_dataset(name, token=token))
         print(f"[prefetch]   -> splits={list(ds.keys())}", flush=True)
 
 
