@@ -406,14 +406,32 @@ The `.sif` at `/scratch/p_oe_hpc/transformers-gpu.sif` was built from the
 public Docker image `huggingface/transformers-all-latest-gpu` using the
 definition file in `singularity/transformers-gpu.def`. To rebuild it (only
 needed if the upstream image is updated), run on a login node with
-`fakeroot` enabled:
+`fakeroot` enabled.
+
+Before building, redirect **every** Singularity / Apptainer cache and
+temporary directory onto `/scratch`. The defaults live under `$HOME`, where
+the per-user quota is small and a multi-GB Docker layer pull will fill it
+up and fail mid-build (the same reason the HuggingFace cache is on scratch).
 
 ```bash
 module load singularity/4.0
+
+# Redirect Singularity caches off $HOME — analogous to HF_HOME on /scratch.
+export SINGULARITY_CACHEDIR=/scratch/p_oe_hpc/${USER}/singularity_cache
+export SINGULARITY_TMPDIR=/scratch/p_oe_hpc/${USER}/singularity_tmp
+export APPTAINER_CACHEDIR=${SINGULARITY_CACHEDIR}
+export APPTAINER_TMPDIR=${SINGULARITY_TMPDIR}
+mkdir -p "${SINGULARITY_CACHEDIR}" "${SINGULARITY_TMPDIR}"
+
 singularity build --fakeroot \
     /scratch/p_oe_hpc/transformers-gpu.sif \
     singularity/transformers-gpu.def
 ```
+
+The four env vars cover both the legacy `SINGULARITY_*` names and the newer
+`APPTAINER_*` ones; whichever the installed runtime honours will pick them
+up. After the build finishes you can delete `singularity_tmp/` to reclaim
+space; `singularity_cache/` is worth keeping if you expect to rebuild.
 
 The image already contains `torch`, `transformers`, `datasets`, `accelerate`,
 `peft`, `tokenizers` and all common HF dependencies, so no `pip install` is
