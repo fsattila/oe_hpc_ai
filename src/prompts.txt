@@ -1,0 +1,5 @@
+Explain in two sentences why GPUs are well-suited for matrix multiplication.
+What is the difference between supervised fine-tuning and reinforcement learning from human feedback?
+Write a Python function that returns the n-th Fibonacci number using memoization.
+Summarize the role of an HPC job scheduler in one short paragraph.
+List three reasons a research team might prefer running training jobs on a shared cluster instead of a personal workstation.

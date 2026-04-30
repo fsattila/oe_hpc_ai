@@ -1,0 +1,37 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+
+# Model artifacts
+*.safetensors
+*.bin
+*.pt
+*.pth
+
+# SLURM logs
+logs/
+slurm-*.out
+
+# Local outputs (should never live in repo, but guard anyway)
+output/
+/data/
+
+# Editor / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+*.env
+
+# Temporary copies of reference material
+tmp/
+
+# Local developer environment (not part of the class material)
+.devcontainer.json
+.devcontainer/

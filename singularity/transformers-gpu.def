@@ -1,0 +1,12 @@
+Bootstrap: docker
+From: huggingface/transformers-all-latest-gpu
+
+%labels
+    Description "HuggingFace Transformers (latest, GPU) image for Komondor HPC class"
+    Course "OE HPC AI demos"
+
+%post
+    echo "Built from huggingface/transformers-all-latest-gpu"
+
+%runscript
+    exec python "$@"
