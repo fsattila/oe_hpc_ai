@@ -57,23 +57,23 @@ every dataset shard used by the jobs must already be present in the cache on
 shared scratch.
 
 The Demo 3 dataset (`Salesforce/xlam-function-calling-60k`) is a **gated**
-repo on HuggingFace, so a one-time setup is required:
+repo on HuggingFace, so an `HF_TOKEN` is required to download it.
 
-1. Visit <https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k>
-   while signed in to your HuggingFace account and accept the dataset terms.
-2. Create a read-only access token at <https://huggingface.co/settings/tokens>
-   (type "Read" is enough).
-3. Export the token in your shell on the login node:
-   ```bash
-   export HF_TOKEN=hf_xxxxxxxxxxxxxxxxxxxx
-   ```
-
-Then run the prefetch script (export the token in the same shell):
+For this exercise a shared token has already been placed on scratch at
+`/scratch/p_oe_hpc/hf_token.sh`. Source it once on the login node and run
+the prefetch:
 
 ```bash
-export HF_TOKEN=hf_...
+source /scratch/p_oe_hpc/hf_token.sh
 bash scripts/prefetch_hf.sh
 ```
+
+> In a real-life scenario you would not get a token handed to you — you
+> would obtain your own. To do that: accept the dataset terms at
+> <https://huggingface.co/datasets/Salesforce/xlam-function-calling-60k>,
+> create a read-only token at <https://huggingface.co/settings/tokens>, then
+> `export HF_TOKEN=hf_...` in your shell before running the prefetch script
+> (instead of sourcing the shared file).
 
 This downloads, into `/scratch/p_oe_hpc/$USER/hf_cache/`:
 
